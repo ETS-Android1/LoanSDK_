@@ -8,12 +8,12 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 
-  implementation 'xyz.belvi:rvcompose:rvcomposelibrary:1.0.3'
+  implementation 'io.intelia.sdk:loanEligibility:1.1.0'
 }
 ```
-
 
 ---
 
 ## The Basics
 
+**First**, initialize LoanEligibilty SDK:
