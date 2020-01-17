@@ -16,17 +16,17 @@ dependencies {
 
 ## The Basics
 
-**First**, initialize LoanEligibilty SDK:
+**Kindly Note**, initialize LoanEligibilty SDK:
 To initialise LoanEligibility SDK, call : `LoanEligibility.init(this)`
 this will either : 
 
-throw an exception when permission is not granted to read sms (so ensure your application have been granted the proper permission before maing this call)
+`throw an exception` when permission is not granted to read sms (so ensure your application have been granted the proper permission before maing this call)
 
 ```java
 throw Exception("android.Manifest.permission.READ_SMS permission is required")
 ```
 
-or it will return `QueryImpl`
+or  `return QueryImpl`
 
 ### QueryImpl
 
@@ -81,3 +81,31 @@ this returns `data class SmsDataPoint(val category: String, var sms: MutableList
 `category` signifies the category of this transaction.
 
 ` var sms: MutableList<Sms>` shows sms under this category
+
+* `fun relevantApp(): RelevantApps`
+
+this returns list of finaincial apps activiely being used by the users. 
+
+
+* `fun relevantApp(): RelevantApps`
+
+this returns list of finaincial apps activiely being used by the users. 
+
+* `fun isRelevantSms(sms: String): Boolean`
+
+verifies if the string content is transactional. This is useful when intercepting user sms. New transactional sms can triger a new check for user eligibility. 
+
+```kotlin 
+  if(queryImpl.isRelevantSms(sms))
+      calculateEligibility()
+ ```
+
+* `fun isRelevantApp(packageName: String): Boolean`
+
+verifies if a packagename should affect user's eligibility calculation. This largely depends on if the user activiely use the application. 
+Otherwise, it returns false immediately. This is particularly useful when your application listens to new app installation. 
+
+```kotlin 
+  if(queryImpl.isRelevantApp(packageName))
+      calculateEligibility()
+ ```
