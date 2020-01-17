@@ -109,3 +109,8 @@ Otherwise, it returns false immediately. This is particularly useful when your a
   if(queryImpl.isRelevantApp(packageName))
       calculateEligibility()
  ```
+ 
+### Testing the SDK
+
+You will find a basic text application [here](https://github.com/intelia/Loan-SDK/tree/master/app) .
+Kindly go through the implimentation, build and run on your emulator or physical devices. The test app test the basic functionality of the sdk. So, don't restrict your usage or implementation to what is found therein. 
