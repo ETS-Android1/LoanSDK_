@@ -8,7 +8,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 
-  implementation 'io.intelia.sdk:loanEligibility:1.1.0'
+  implementation 'io.intelia.anyi:eligibility:1.1.1'
 }
 ```
 
