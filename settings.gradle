@@ -1,2 +1,2 @@
-include ':app', ':loanEligibility'
+include ':app', ':eligibility'
 rootProject.name='LoanSDK'

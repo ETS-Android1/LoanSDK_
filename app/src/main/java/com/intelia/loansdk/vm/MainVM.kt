@@ -2,9 +2,9 @@ package com.intelia.loansdk.vm
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.intelia.sdk.loanEligibility.models.Eligibility
-import com.intelia.sdk.loanEligibility.models.SmsDataPoint
-import com.intelia.sdk.loanEligibility.usecase.QueryUsecase
+import com.intelia.sdk.eligibility.models.Eligibility
+import com.intelia.sdk.eligibility.models.SmsDataPoint
+import com.intelia.sdk.eligibility.usecase.QueryUsecase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

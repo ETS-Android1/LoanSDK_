@@ -1,10 +1,10 @@
-package com.intelia.sdk.loanEligibility.impl
+package com.intelia.sdk.eligibility.impl
 
 import android.content.Context
-import com.intelia.sdk.loanEligibility.models.Eligibility
-import com.intelia.sdk.loanEligibility.models.RelevantApps
-import com.intelia.sdk.loanEligibility.models.SmsDataPoint
-import com.intelia.sdk.loanEligibility.usecase.QueryUsecase
+import com.intelia.sdk.eligibility.models.Eligibility
+import com.intelia.sdk.eligibility.models.RelevantApps
+import com.intelia.sdk.eligibility.models.SmsDataPoint
+import com.intelia.sdk.eligibility.usecase.QueryUsecase
 import io.reactivex.Observable
 
 open class QueryImpl : QueryUsecase {

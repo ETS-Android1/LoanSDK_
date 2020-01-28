@@ -1,11 +1,10 @@
-package com.intelia.sdk.loanEligibility.impl
+package com.intelia.sdk.eligibility.impl
 
 import android.content.Context
-import com.intelia.loanEligibility.models.*
-import com.intelia.sdk.loanEligibility.models.*
-import com.intelia.sdk.loanEligibility.remote.ApiClient
-import com.intelia.sdk.loanEligibility.remote.apis.AnalysisApi
-import com.intelia.sdk.loanEligibility.repository.SmsQuery
+import com.intelia.sdk.eligibility.models.*
+import com.intelia.sdk.eligibility.remote.ApiClient
+import com.intelia.sdk.eligibility.remote.apis.AnalysisApi
+import com.intelia.sdk.eligibility.repository.SmsQuery
 import io.reactivex.Observable
 import java.util.*
 import java.util.regex.Pattern

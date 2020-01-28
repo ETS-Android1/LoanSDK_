@@ -1,10 +1,10 @@
-package com.intelia.sdk.loanEligibility.repository
+package com.intelia.sdk.eligibility.repository
 
 import android.content.Context
 import android.provider.Telephony
-import com.intelia.sdk.loanEligibility.models.FilterParams
-import com.intelia.sdk.loanEligibility.models.Sms
-import com.intelia.sdk.loanEligibility.models.SmsDataPoint
+import com.intelia.sdk.eligibility.models.FilterParams
+import com.intelia.sdk.eligibility.models.Sms
+import com.intelia.sdk.eligibility.models.SmsDataPoint
 import io.reactivex.Observable
 import java.util.*
 import java.util.regex.Pattern

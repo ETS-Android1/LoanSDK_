@@ -1,4 +1,4 @@
-package com.intelia.sdk.loanEligibility.remote
+package com.intelia.sdk.eligibility.remote
 
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient

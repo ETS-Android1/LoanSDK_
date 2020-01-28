@@ -1,9 +1,9 @@
-package com.intelia.sdk.loanEligibility
+package com.intelia.sdk.eligibility
 
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
-import com.intelia.sdk.loanEligibility.impl.QueryImpl
+import com.intelia.sdk.eligibility.impl.QueryImpl
 
 object LoanEligibility {
 

@@ -1,4 +1,4 @@
-package com.intelia.sdk.loanEligibility.models
+package com.intelia.sdk.eligibility.models
 
 import com.google.gson.annotations.SerializedName
 import java.util.*

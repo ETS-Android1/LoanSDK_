@@ -1,7 +1,7 @@
-package com.intelia.sdk.loanEligibility.remote.apis
+package com.intelia.sdk.eligibility.remote.apis
 
-import com.intelia.sdk.loanEligibility.remote.NetworkResponses
-import com.intelia.sdk.loanEligibility.models.DataRequest
+import com.intelia.sdk.eligibility.remote.NetworkResponses
+import com.intelia.sdk.eligibility.models.DataRequest
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.POST
