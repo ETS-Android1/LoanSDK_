@@ -117,3 +117,45 @@ You will find a basic text application [here](https://github.com/intelia/Loan-SD
 Kindly go through the implimentation, build and run on your emulator or physical devices.
 
 The test app test the basic functionality of the sdk. So, don't restrict your usage or implementation to what is found therein. 
+
+## Using in Cordova 
+
+```kotlin
+open class EligibilityCordovaPlug : CordovaPlugin {
+    lateinit var mCordova: CordovaInterface
+    lateinit var queryImp: QueryImpl
+
+
+    @Override
+    fun initialize(cordova: CordovaInterface, webView: CordovaWebView) {
+        super.initialize(cordova, webView)
+        mCordova = cordova
+        queryImp = LoanEligibility.init(webView.context)
+    }
+
+    @Override
+    fun execute(action: String, args: JSONArray, callbackContext: CallbackContext): Boolean {
+        when {
+            ELIGIBILITY == action -> {
+                queryImp.calculateEligibility()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        callbackContext.success(Gson().toJson(it))
+                    }
+
+            }
+            TRANSACTIONAL_DATA == action -> {
+                queryImp.smsData()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        callbackContext.success(Gson().toJson(it))
+                    }
+            }
+        }
+        return super.execute(action, args, callbackContext);
+    }
+}
+```
+
