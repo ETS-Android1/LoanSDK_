@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/kingsmentor/maven/MobileVision/images/download.svg) ](https://bintray.com/kingsmentor/maven/eligibility/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/kingsmentor/maven/eligibility/images/download.svg) ](https://bintray.com/kingsmentor/maven/eligibility/_latestVersion)
 
 # Loan-SDK
 Android SDK for Loan Apps
