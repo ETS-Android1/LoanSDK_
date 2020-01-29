@@ -185,8 +185,6 @@ Don not forget to pass the following in config via javascript when using this pl
 `sms` - when using **IS_TRANSACTIONAL_SMS**
 
 ```javascript
-function() {
-  cordova.exec(function(winParam) {},
+cordova.exec(function(winParam) {},
     function(error) {},"Plugin_Name","ELIGIBILITY",[{apikey:"YOUR_API_KEY_HERE","sms": "CONTENT_HERE", "packagename": "PACKAGENAME_HERE"}]);
-},
 ```
