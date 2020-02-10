@@ -7,14 +7,14 @@ import com.intelia.sdk.eligibility.impl.QueryImpl
 
 object LoanEligibility {
 
-    fun init(context: Context): QueryImpl {
+    fun init(context: Context,key:String): QueryImpl {
         if (ContextCompat.checkSelfPermission(
                 context,
                 android.Manifest.permission.READ_SMS
             ) != PackageManager.PERMISSION_GRANTED
         )
             throw Exception("android.Manifest.permission.READ_SMS permission is required")
-        return QueryImpl(context)
+        return QueryImpl(context,key)
     }
 
 }

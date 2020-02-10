@@ -12,12 +12,14 @@ open class QueryImpl : QueryUsecase {
     private constructor()
 
     private lateinit var context: Context
+    private lateinit var key: String
 
-    internal constructor(context: Context) : this() {
+    internal constructor(context: Context, key: String) : this() {
         this.context = context
+        this.key = key
     }
 
-    private val queryImplementation = QueryImplementation()
+    private val queryImplementation = QueryImplementation(key)
 
     override fun calculateEligibility(): Observable<Eligibility> {
         return queryImplementation.calculateEligibility(context)

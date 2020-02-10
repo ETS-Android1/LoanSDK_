@@ -9,9 +9,13 @@ import io.reactivex.Observable
 import java.util.*
 import java.util.regex.Pattern
 
-internal class QueryImplementation(private val api: AnalysisApi = ApiClient.retrofit.create(
-    AnalysisApi::class.java)) {
+internal class QueryImplementation {
+    private lateinit var api: AnalysisApi
 
+    private constructor()
+    internal constructor(key: String) : this() {
+        api = ApiClient.retrofit(key).create(AnalysisApi::class.java)
+    }
     fun calculateEligibility(context: Context): Observable<Eligibility> {
         return SmsQuery().smsSearch(context)
             .map {

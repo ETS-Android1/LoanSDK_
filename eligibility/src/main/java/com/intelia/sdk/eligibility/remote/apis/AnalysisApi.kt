@@ -8,7 +8,7 @@ import retrofit2.http.POST
 
 interface AnalysisApi {
 
-    @POST("/calculate_eligible_amount")
+    @POST("/api/v1/request/calculate_eligible_amount")
     fun calculateEligibility(@Body data: DataRequest): Observable<NetworkResponses.DataPointResponse>
 
 

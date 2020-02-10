@@ -21,8 +21,8 @@ object ApiClient {
     private const val API_BASE_URL = "http://loanapp-data-engine.dev.intelia.io/"
 
 
-    val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
+    fun retrofit(key: String): Retrofit {
+        return Retrofit.Builder()
             .baseUrl(API_BASE_URL)
             .addConverterFactory(
                 GsonConverterFactory.create(
@@ -30,12 +30,12 @@ object ApiClient {
                         .setLenient()
                         .create())) // for serialization. Great resource for json parsing
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // for rx. Enable the use of Observable instead of {@link Call}
-            .client(signedClient())
+            .client(signedClient(key))
             .build()
     }
 
 
-    private fun signedClient(): OkHttpClient {
+    private fun signedClient(key: String): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()
@@ -43,6 +43,13 @@ object ApiClient {
             .readTimeout(1, TimeUnit.MINUTES)
             .writeTimeout(1, TimeUnit.MINUTES)
             .addInterceptor(interceptor)
+            .addInterceptor { chain ->
+                val newRequest = chain.request().newBuilder()
+
+                    .addHeader("key", key)
+                    .build()
+                chain.proceed(newRequest)
+            }
             .build()
     }
 

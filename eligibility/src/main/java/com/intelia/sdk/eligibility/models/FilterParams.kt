@@ -68,6 +68,18 @@ object FilterParams {
             mutableListOf("^.*diamond.*\$"),
             mutableListOf("^.*credit.*\$"),
             DataPointType.SMS
+        ),
+        DataPointCategory(
+            "Ecobank Dr",
+            mutableListOf("^.ecobank*.*\$"),
+            mutableListOf("^.*debit:ngn.*\$"),
+            DataPointType.SMS
+        ),
+        DataPointCategory(
+            "Ecobank Credit",
+            mutableListOf("^.*ecobank.*\$"),
+            mutableListOf("^.*credit:ngn.*\$"),
+            DataPointType.SMS
         )
     )
 }
