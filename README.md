@@ -19,7 +19,9 @@ dependencies {
 ## The Basics
 
 **Kindly Note**, initialize LoanEligibilty SDK:
-To initialise LoanEligibility SDK, call : `LoanEligibility.init(this)`
+
+To initialise LoanEligibility SDK, call : `LoanEligibility.init(context, YOUR_API_KEY)`
+
 this will either : 
 
 `throw an exception` when permission is not granted to read sms (so ensure your application have been granted the proper permission before maing this call)
