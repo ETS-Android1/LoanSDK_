@@ -25,6 +25,18 @@ data class Request(
     var isSms: Boolean
 )
 
+
+open class IpRequest(
+    val name: String = "",
+    val ip_address: String = "",
+    val sha1: String = "",
+    val packageName: String = "",
+    val key: String? = null
+)
+
+
+
+
 data class DataRequest(
     val data: MutableList<Request>
 )

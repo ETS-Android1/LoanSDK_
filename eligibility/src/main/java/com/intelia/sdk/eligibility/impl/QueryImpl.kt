@@ -12,17 +12,18 @@ open class QueryImpl : QueryUsecase {
     private constructor()
 
     private lateinit var context: Context
-    private lateinit var key: String
+    private lateinit var apiKey: String
 
     internal constructor(context: Context, key: String) : this() {
         this.context = context
-        this.key = key
+        this.apiKey = key
     }
 
-    private val queryImplementation = QueryImplementation(key)
+
+    private val queryImplementation = QueryImplementation()
 
     override fun calculateEligibility(): Observable<Eligibility> {
-        return queryImplementation.calculateEligibility(context)
+        return queryImplementation.calculateEligibility(context,apiKey)
     }
 
     override fun smsData(): Observable<MutableList<SmsDataPoint>> {
