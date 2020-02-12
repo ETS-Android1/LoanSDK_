@@ -10,6 +10,6 @@ import com.intelia.loansdk.App
 object VMFactory : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainVM(LoanEligibility.init(App.appContext)) as T
+        return MainVM(LoanEligibility.init(App.appContext,"sample_sample")) as T
     }
 }
