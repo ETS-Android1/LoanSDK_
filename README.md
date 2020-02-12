@@ -126,20 +126,20 @@ The test app test the basic functionality of the sdk. So, don't restrict your us
 open class EligibilityCordovaPlug : CordovaPlugin {
     lateinit var mCordova: CordovaInterface
     lateinit var queryImp: QueryImpl
+    lateinit var webView : CordovaWebView
 
 
     @Override
     fun initialize(cordova: CordovaInterface, webView: CordovaWebView) {
         super.initialize(cordova, webView)
         mCordova = cordova
-        queryImp = LoanEligibility.init(webView.context)
+        queryImp = LoanEligibility.init(webView.context,"YOUR_API_KEY")
     }
 
     @Override
     fun execute(action: String, args: JSONArray, callbackContext: CallbackContext): Boolean {
-    val apiKey = args.optJSONObject(0).opt("api_key")
-    val packageName = args.optJSONObject(0).opt("pakcageName")
-    val sms = args.optJSONObject(0).opt("sms")
+    // val packageName = args.optJSONObject(0).opt("pakcageName")
+    // val sms = args.optJSONObject(0).opt("sms")
         when {
             ELIGIBILITY == action -> {
                 queryImp.calculateEligibility()
