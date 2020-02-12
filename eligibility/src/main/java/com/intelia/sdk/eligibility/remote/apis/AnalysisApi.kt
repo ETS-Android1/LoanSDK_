@@ -9,13 +9,13 @@ import retrofit2.http.POST
 
 interface AnalysisApi {
 
-    @POST("/api/v1/request/calculate_eligible_amount")
+    @POST("/api/v1/request/calculate_eligibility")
     fun calculateEligibility(@Body data: DataRequest): Observable<NetworkResponses.DataPointResponse>
 
-    @POST("/api/v1/auth//auth/generate_key")
+    @POST("/api/v1/auth/generate_key")
     fun generateKey(@Body data: IpRequest): Observable<NetworkResponses.KeyResponse>
 
-    @POST("/api/v1/auth//auth/retrieve_key")
+    @POST("/api/v1/auth/retrieve_key")
     fun retrieve(@Body data: IpRequest): Observable<NetworkResponses.KeyResponse>
 
 
