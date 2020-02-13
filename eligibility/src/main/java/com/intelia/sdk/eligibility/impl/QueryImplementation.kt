@@ -15,14 +15,27 @@ import java.util.regex.Pattern
 internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.create(AnalysisApi::class.java)) {
 
 
-    fun calculateEligibility(context: Context, apiKey: String): Observable<Eligibility> {
-        return api.generateKey(IpRequest(apiKey, context.ip(), context.hash(), context.packageName))
+    fun calculateEligibility(
+        context: Context,
+        name: String,
+        apiKey: String
+    ): Observable<Eligibility> {
+        return api.generateKey(
+            IpRequest(
+                name,
+                apiKey,
+                context.ip(),
+                context.hash(),
+                context.packageName
+            )
+        )
             .flatMap { response ->
                 response.key?.let {
                     Observable.just(response)
                 } ?: run {
                     api.retrieve(
                         IpRequest(
+                            name,
                             apiKey,
                             context.ip(),
                             context.hash(),
@@ -59,12 +72,10 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                         })
                         it
                     }.flatMap {
-                        val signedApi: AnalysisApi =
-                            ApiClient.retrofitSigned(response.key!!).create(AnalysisApi::class.java)
-                        signedApi.calculateEligibility(
-                            DataRequest(
-                                it
-                            )
+                        api.calculateEligibility(
+                            name,
+                            response.key!!,
+                            DataRequest(it)
                         )
                     }
                     .map {

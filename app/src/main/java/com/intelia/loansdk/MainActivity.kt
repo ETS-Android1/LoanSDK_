@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        LoanEligibility.init(this,"sample_sample")
+        LoanEligibility.init(this,"sample_name","sample_key")
         mainVM = ViewModelProviders.of(this, VMFactory).get(MainVM::class.java)
 
         mainVM.smsDataPoint.observe(this, Observer { res ->

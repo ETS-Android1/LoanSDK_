@@ -28,6 +28,7 @@ data class Request(
 
 open class IpRequest(
     val name: String = "",
+    val apiKey: String = "",
     val ip_address: String = "",
     val sha1: String = "",
     val packageName: String = "",

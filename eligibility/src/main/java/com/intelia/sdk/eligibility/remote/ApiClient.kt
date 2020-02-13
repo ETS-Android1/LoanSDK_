@@ -34,40 +34,16 @@ object ApiClient {
             .build()
     }
 
-    fun retrofitSigned(key: String): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(API_BASE_URL)
-            .addConverterFactory(
-                GsonConverterFactory.create(
-                    GsonBuilder()
-                        .setLenient()
-                        .create()
-                )
-            ) // for serialization. Great resource for json parsing
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // for rx. Enable the use of Observable instead of {@link Call}
-            .client(signedClient(key))
-            .build()
-    }
 
-
-    private fun signedClient(key: String = ""): OkHttpClient {
+    private fun signedClient(): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder()
+        return OkHttpClient.Builder()
             .connectTimeout(1, TimeUnit.MINUTES)
             .readTimeout(1, TimeUnit.MINUTES)
             .writeTimeout(1, TimeUnit.MINUTES)
             .addInterceptor(interceptor)
-        if (!key.isEmpty()) {
-            client.addInterceptor { chain ->
-                val newRequest = chain.request().newBuilder()
-
-                    .addHeader("key", key)
-                    .build()
-                chain.proceed(newRequest)
-            }
-            }
-        return client.build()
+            .build()
     }
 
 
