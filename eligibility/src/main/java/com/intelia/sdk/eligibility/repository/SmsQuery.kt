@@ -31,7 +31,7 @@ open class SmsQuery {
                             dataPointCategory.contentFilter.forEach inner@{
                                 val p = Pattern.compile(it)
                                 val m = p.matcher(body.replace("\n"," ").toLowerCase())
-                                if (m.matches()) {
+                                if (m.matches() && number.first().isLetter()) {
                                     if (smsList.containsKey(dataPointCategory.category))
                                         smsList[dataPointCategory.category]?.add(
                                             Sms(

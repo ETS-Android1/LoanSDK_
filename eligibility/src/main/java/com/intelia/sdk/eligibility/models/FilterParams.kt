@@ -9,7 +9,7 @@ object FilterParams {
             DataPointType.SMS
         ),
         DataPointCategory(
-            "Debit",
+            "Debit Transaction",
             mutableListOf(
                 "^.* dr.*\$",
                 "^.*debit.*\$",
@@ -21,7 +21,7 @@ object FilterParams {
             DataPointType.SMS
         ),
         DataPointCategory(
-            "Credit",
+            "Credit Transaction",
             mutableListOf(
                 "^. cr.*\$",
                 "^.*credit.*\$",

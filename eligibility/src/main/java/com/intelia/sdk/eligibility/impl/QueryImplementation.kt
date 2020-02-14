@@ -5,6 +5,7 @@ import com.intelia.sdk.eligibility.ext.hash
 import com.intelia.sdk.eligibility.ext.ip
 import com.intelia.sdk.eligibility.models.*
 import com.intelia.sdk.eligibility.remote.ApiClient
+import com.intelia.sdk.eligibility.remote.NetworkResponses
 import com.intelia.sdk.eligibility.remote.apis.AnalysisApi
 import com.intelia.sdk.eligibility.repository.SmsQuery
 import io.reactivex.Observable
@@ -28,8 +29,9 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                 context.hash(),
                 context.packageName
             )
-        )
-            .flatMap { response ->
+        ).onErrorReturn {
+            NetworkResponses.KeyResponse()
+        }.flatMap { response ->
                 response.key?.let {
                     Observable.just(response)
                 } ?: run {
@@ -43,8 +45,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                         )
                     )
                 }
-            }
-            .flatMap { response ->
+        }.flatMap { response ->
                 SmsQuery().smsSearch(context)
                     .map {
                         val body = mutableListOf<Request>()
@@ -82,7 +83,6 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                         it
                     }
             }
-        
 
     }
 
