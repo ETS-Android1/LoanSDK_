@@ -10,7 +10,6 @@ enum class DataPointType {
 
 data class DataPointCategory(
     val category: String,
-    val nameFilter: MutableList<String>,
     val contentFilter: MutableList<String>,
     val dataPointType: DataPointType
 )

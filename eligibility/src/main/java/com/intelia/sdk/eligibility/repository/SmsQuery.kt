@@ -28,43 +28,28 @@ open class SmsQuery {
                         Integer.parseInt(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.TYPE)))
                     if (type == Telephony.Sms.MESSAGE_TYPE_INBOX) {
                         FilterParams.query.forEach outter@{ dataPointCategory ->
-                            var numberMatch = false
-                            var contentMatch = false
-                            dataPointCategory.nameFilter.forEach inner@{
-                                if (numberMatch) {
-                                    return@inner
-                                }
-                                val p = Pattern.compile(it)
-                                val m = p.matcher(number.toLowerCase())
-                                numberMatch = m.matches()
-                            }
                             dataPointCategory.contentFilter.forEach inner@{
-                                if (contentMatch) {
-                                    return@inner
-                                }
                                 val p = Pattern.compile(it)
                                 val m = p.matcher(body.replace("\n"," ").toLowerCase())
-                                contentMatch = m.matches()
-                            }
-                            if (numberMatch && contentMatch) {
-                                if(smsList.containsKey(dataPointCategory.category))
-                                    smsList[dataPointCategory.category]?.add(
-                                        Sms(
-                                            number,
-                                            body,
-                                            dateFormat
+                                if (m.matches()) {
+                                    if (smsList.containsKey(dataPointCategory.category))
+                                        smsList[dataPointCategory.category]?.add(
+                                            Sms(
+                                                number,
+                                                body,
+                                                dateFormat
+                                            )
                                         )
-                                    )
-                                else {
-                                    smsList[dataPointCategory.category] = mutableListOf(
-                                        Sms(
-                                            number,
-                                            body,
-                                            dateFormat
+                                    else {
+                                        smsList[dataPointCategory.category] = mutableListOf(
+                                            Sms(
+                                                number,
+                                                body,
+                                                dateFormat
+                                            )
                                         )
-                                    )
+                                    }
                                 }
-                                return@outter
                             }
                         }
                     }
