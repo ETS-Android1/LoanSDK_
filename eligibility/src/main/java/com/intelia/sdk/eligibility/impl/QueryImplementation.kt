@@ -1,6 +1,7 @@
 package com.intelia.sdk.eligibility.impl
 
 import android.content.Context
+import com.intelia.sdk.eligibility.ext.buildDeviceInfo
 import com.intelia.sdk.eligibility.ext.hash
 import com.intelia.sdk.eligibility.ext.ip
 import com.intelia.sdk.eligibility.models.*
@@ -9,6 +10,7 @@ import com.intelia.sdk.eligibility.remote.NetworkResponses
 import com.intelia.sdk.eligibility.remote.apis.AnalysisApi
 import com.intelia.sdk.eligibility.repository.SmsQuery
 import io.reactivex.Observable
+import org.json.JSONObject
 import java.util.*
 import java.util.regex.Pattern
 
@@ -19,9 +21,10 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
     fun calculateEligibility(
         context: Context,
         name: String,
-        apiKey: String
+        apiKey: String,
+        extras: JSONObject
     ): Observable<Eligibility> {
-        return api.generateKey(
+        return api.retrieve(
             IpRequest(
                 name,
                 apiKey,
@@ -35,7 +38,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                 response.key?.let {
                     Observable.just(response)
                 } ?: run {
-                    api.retrieve(
+                    api.generateKey(
                         IpRequest(
                             name,
                             apiKey,
@@ -73,10 +76,11 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                         })
                         it
                     }.flatMap {
+                        context.buildDeviceInfo(extras)
                         api.calculateEligibility(
                             name,
                             response.key!!,
-                            DataRequest(it)
+                            DataRequest(it,extras)
                         )
                     }
                     .map {

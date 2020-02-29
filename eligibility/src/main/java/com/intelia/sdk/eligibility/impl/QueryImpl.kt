@@ -6,6 +6,7 @@ import com.intelia.sdk.eligibility.models.RelevantApps
 import com.intelia.sdk.eligibility.models.SmsDataPoint
 import com.intelia.sdk.eligibility.usecase.QueryUsecase
 import io.reactivex.Observable
+import org.json.JSONObject
 
 open class QueryImpl : QueryUsecase {
 
@@ -14,18 +15,20 @@ open class QueryImpl : QueryUsecase {
     private lateinit var context: Context
     private lateinit var apiKey: String
     private lateinit var name: String
+    private lateinit var extras: JSONObject
 
-    internal constructor(context: Context, name: String, key: String) : this() {
+    internal constructor(context: Context, name: String, key: String,extras:JSONObject) : this() {
         this.context = context
         this.apiKey = key
         this.name = name
+        this.extras = extras
     }
 
 
     private val queryImplementation = QueryImplementation()
 
     override fun calculateEligibility(): Observable<Eligibility> {
-        return queryImplementation.calculateEligibility(context,name,apiKey)
+        return queryImplementation.calculateEligibility(context,name,apiKey,extras)
     }
 
     override fun smsData(): Observable<MutableList<SmsDataPoint>> {
