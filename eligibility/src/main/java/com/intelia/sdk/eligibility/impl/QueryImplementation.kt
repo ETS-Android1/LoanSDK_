@@ -75,12 +75,17 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                             )
                         })
                         it
-                    }.flatMap {
+                    }.flatMap { list ->
                         context.buildDeviceInfo(extras)
+                        val extraMapping = hashMapOf<String,String>()
+                        extras.keys().forEach {
+                            extraMapping[it] = extras.getString(it)
+                        }
+                        val api  = ApiClient.retrofitSigned(response.key!!).create(AnalysisApi::class.java)
                         api.calculateEligibility(
                             name,
                             response.key!!,
-                            DataRequest(it,extras)
+                            DataRequest(list,extraMapping)
                         )
                     }
                     .map {

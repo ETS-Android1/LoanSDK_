@@ -15,6 +15,7 @@ import com.intelia.loansdk.vm.MainVM
 import com.intelia.loansdk.vm.VMFactory
 import com.intelia.sdk.eligibility.LoanEligibility
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.belvi.myapplication.AlertRecyclerAdapter
 
@@ -88,7 +89,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        LoanEligibility.init(this,"sample_name","sample_key")
         mainVM = ViewModelProviders.of(this, VMFactory).get(MainVM::class.java)
 
         mainVM.smsDataPoint.observe(this, Observer { res ->
