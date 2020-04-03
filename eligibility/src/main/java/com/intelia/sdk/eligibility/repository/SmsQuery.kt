@@ -2,6 +2,7 @@ package com.intelia.sdk.eligibility.repository
 
 import android.content.Context
 import android.provider.Telephony
+import android.util.Log
 import com.intelia.sdk.eligibility.models.FilterParams
 import com.intelia.sdk.eligibility.models.Sms
 import com.intelia.sdk.eligibility.models.SmsDataPoint
@@ -27,11 +28,14 @@ open class SmsQuery {
                     val type =
                         Integer.parseInt(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.TYPE)))
                     if (type == Telephony.Sms.MESSAGE_TYPE_INBOX) {
+                        if(number.toLowerCase().startsWith("gtbankrvsl")){
+                            Log.e("body",body.replace("\n"," ").toLowerCase())
+                        }
                         FilterParams.query.forEach outter@{ dataPointCategory ->
                             dataPointCategory.contentFilter.forEach inner@{
                                 val p = Pattern.compile(it)
                                 val m = p.matcher(body.replace("\n"," ").toLowerCase())
-                                if (m.matches() && number.first().isLetter()) {
+                                if (m.find() && number.first().isLetter()) {
                                     if (smsList.containsKey(dataPointCategory.category))
                                         smsList[dataPointCategory.category]?.add(
                                             Sms(
