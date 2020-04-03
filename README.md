@@ -135,7 +135,9 @@ open class EligibilityCordovaPlug : CordovaPlugin {
     fun initialize(cordova: CordovaInterface, webView: CordovaWebView) {
         super.initialize(cordova, webView)
         mCordova = cordova
-        queryImp = LoanEligibility.init(webView.context,"YOUR_API_KEY")
+        queryImp = LoanEligibility.init(App.appContext,"COMPANY_NAME","SAMPLE_KEY",
+            JSONObject()
+        ) 
     }
 
     @Override
