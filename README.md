@@ -10,7 +10,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 
-  implementation 'io.intelia.anyi:eligibility:1.1.1'
+  implementation 'io.intelia.anyi:eligibility:2.0.1'
 }
 ```
 
@@ -135,7 +135,9 @@ open class EligibilityCordovaPlug : CordovaPlugin {
     fun initialize(cordova: CordovaInterface, webView: CordovaWebView) {
         super.initialize(cordova, webView)
         mCordova = cordova
-        queryImp = LoanEligibility.init(webView.context,"YOUR_API_KEY")
+        queryImp = LoanEligibility.init(App.appContext,"COMPANY_NAME","SAMPLE_KEY",
+            JSONObject()
+        ) 
     }
 
     @Override
