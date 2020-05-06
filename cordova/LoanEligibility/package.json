@@ -1,0 +1,17 @@
+{
+  "name": "cordova-plugin-intelia-loaneligibility",
+  "version": "2.0.2",
+  "cordova": {
+    "id": "cordova-plugin-intelia-loaneligibility",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Intelia Ltd.",
+  "license": "ISC",
+  "description": "Intelia Loan Eligibility Calculator"
+}

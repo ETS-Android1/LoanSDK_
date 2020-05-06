@@ -37,11 +37,9 @@ open class IpRequest(
 )
 
 
-
-
 data class DataRequest(
     val data: MutableList<Request>,
-    val extras: HashMap<String,String>
+    val extras: HashMap<String, String>
 )
 
 open class Eligibility(
@@ -64,13 +62,15 @@ open class Eligibility(
     @SerializedName("is-loan-taker") val is_loan_taker: Boolean = false,
     @SerializedName("is-salary-earner") val is_salary_earner: Boolean = false,
     @SerializedName("freq-used-acc-numbers") val freq_used_acc_numbers: MutableList<UserBankAcct> = mutableListOf()
-): TreeMap<String, JsonElement>()
+) : TreeMap<String, JsonElement>()
 
 
 data class SmsDataPoint(val category: String, var sms: MutableList<Sms>)
 
-data class UserBankAcct(val bank: String,
-                        var ending_number: String)
+data class UserBankAcct(
+    val bank: String,
+    var ending_number: String
+)
 
 data class RelevantApps(var apps: MutableList<String>)
 

@@ -17,26 +17,29 @@ open class MainVM(private val usecase: QueryUsecase) : ViewModel() {
     val smsDataPoint = MutableLiveData<MutableList<SmsDataPoint>>()
     val eligibility = MutableLiveData<Eligibility>()
     fun querySms() {
-        usecase.smsData()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                smsDataPoint.postValue(it)
-            }
+        compositeDisposable.addAll(
+            usecase.smsData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    smsDataPoint.postValue(it)
+                }
+        )
     }
 
     fun calculateEligibility() {
-
-        usecase.calculateEligibility()
-            .doOnError {
-                eligibility.postValue(null)
-            }
-            .onErrorResumeNext(io.reactivex.Observable.empty())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                eligibility.postValue(it)
-            }
+        compositeDisposable.addAll(
+            usecase.calculateEligibility()
+                .doOnError {
+                    eligibility.postValue(null)
+                }
+                .onErrorResumeNext(io.reactivex.Observable.empty())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    eligibility.postValue(it)
+                }
+        )
     }
 
 

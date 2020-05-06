@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-intelia-loaneligibility" version="2.0.2" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>LoanEligibility</name>
+	<js-module name="LoanEligibility" src="www/LoanEligibility.js">
+		<clobbers target="window.plugins.loaneligibility" />
+	</js-module>
+	<platform name="android">
+		<config-file parent="/*" target="res/xml/config.xml">
+			<feature name="LoanEligibility">
+				<param name="android-package" value="io.intelia.loaneligibility.plugins.EligibilityPlugin" />
+			</feature></config-file>
+
+		<config-file parent="/*" target="AndroidManifest.xml">
+			
+		</config-file>
+		<source-file src="src/android/io/intelia/loaneligibility/plugins/EligibilityPlugin.java" target-dir="src/io/intelia/loaneligibility/plugins"/>
+		<source-file src="src/android/io/intelia/loaneligibility/plugins/constants/PluginActions.java" target-dir="src/io/intelia/loaneligibility/plugins/constants"/>
+		<source-file src="src/android/io/intelia/loaneligibility/plugins/constants/PluginParamsKeys.java" target-dir="src/io/intelia/loaneligibility/plugins/constants"/>
+		<framework custom="true" src="src/android/build.gradle" type="gradleReference"/>
+	</platform>
+</plugin>
