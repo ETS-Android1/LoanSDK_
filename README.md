@@ -128,4 +128,45 @@ first add the cordova plugin :
 
 `cordova plugin add cordova-plugin-intelia-loaneligibility`
 
+## The Basics
+
+**Kindly Note**, initialize LoanEligibilty SDK:
+
+To initialise LoanEligibility SDK, call :
+
+`window.plugins.loaneligibility.init('key','name',{}, function(a){alert('toast success: ' + a)}, function(b){alert('toast error: ' + b)})`
+
+this will either : 
+
+```java
+throw Exception("android.Manifest.permission.READ_SMS permission is required")
+```
+
+or  `return QueryImpl`
+
+You can also ensure SMS permission is granted before making call to the SDK. 
+If the first step was completed without any error. These other calls will run successfully. 
+
+## Fetch data
+
+`window.plugins.loaneligibility.data({}, function(a){alert('toast success: ' + a)}, function(b){alert('toast error: ' + b)})`
+
+## Calculate Eligibility
+`window.plugins.loaneligibility.calculate({}, function(a){alert('toast success: ' + a)}, function(b){alert('toast error: ' + b)})`
+
+Both calls returns JSON representation of `Eligibility` Object (which is updated overtime)
+
+
+Eligibility contains information duduced from User information contained in the device :
+
+```kotlin
+open class Eligibility(
+    val eligible: Boolean = false,
+    @SerializedName("expense-rate") val expense_rate: Double = 0.0,
+    @SerializedName("hold-money-rate") val hold_money_rate: Double = 0.0,
+    @SerializedName("risk-profile") val risk_profile: Double = 0.0,
+    val status: Int = 0
+)
+```
+   
 
