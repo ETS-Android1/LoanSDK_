@@ -124,73 +124,8 @@ The test app test the basic functionality of the sdk. So, don't restrict your us
 
 ## Using in Cordova 
 
-```kotlin
-open class EligibilityCordovaPlug : CordovaPlugin {
-    lateinit var mCordova: CordovaInterface
-    lateinit var queryImp: QueryImpl
-    lateinit var webView : CordovaWebView
+first add the cordova plugin : 
+
+`cordova plugin add cordova-plugin-intelia-loaneligibility`
 
 
-    @Override
-    fun initialize(cordova: CordovaInterface, webView: CordovaWebView) {
-        super.initialize(cordova, webView)
-        mCordova = cordova
-        queryImp = LoanEligibility.init(App.appContext,"COMPANY_NAME","SAMPLE_KEY",
-            JSONObject()
-        ) 
-    }
-
-    @Override
-    fun execute(action: String, args: JSONArray, callbackContext: CallbackContext): Boolean {
-    // val packageName = args.optJSONObject(0).opt("pakcageName")
-    // val sms = args.optJSONObject(0).opt("sms")
-        when {
-            ELIGIBILITY == action -> {
-                queryImp.calculateEligibility()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        callbackContext.success(Gson().toJson(it))
-                    }
-
-            }
-            TRANSACTIONAL_DATA == action -> {
-                queryImp.smsData()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        callbackContext.success(Gson().toJson(it))
-                    }
-            }
-        }
-        return super.execute(action, args, callbackContext);
-    }
-}
-```
-
-You can extend `EligibilityCordovaPlug` as CordovaPlugin as it already extend Cordovaplugin or build a class similar to this.
-
-Extending `EligibilityCordovaPlug` means you will interface with this plugin from javascript with the following actions:
-
-```
-object PluginActions {
-    const val ELIGIBILITY: String = "ELIGIBILITY" // to perform eligibility check
-    const val TRANSACTIONAL_DATA: String = "TRANSACTIONAL_DATA" //  to return transactional sms on user device
-    const val IS_TRANSACTIONAL_SMS: String = "IS_TRANSACTIONAL_SMS" // to check if sms or string content is regcognized as transactional by the engine
-    const val IS_RELEVANT_APP: String = "IS_RELEVANT_APP" // to check if the application qualifies to be assessed for eligility check
-    const val RELEVANT_APPS: String = "RELEVANT_APPS" // check if device actively uses relevant application that can affect eligibility check.
-}
-```
-
-Don not forget to pass the following in config via javascript when using this plugin:
-
-`api_key` - **at all times**, 
-
-`packagename` - when using **IS_RELEVANT_APP**
-
-`sms` - when using **IS_TRANSACTIONAL_SMS**
-
-```javascript
-cordova.exec(function(winParam) {},
-    function(error) {},"Plugin_Name","ELIGIBILITY",[{apikey:"YOUR_API_KEY_HERE","sms": "CONTENT_HERE", "packagename": "PACKAGENAME_HERE"}]);
-```
