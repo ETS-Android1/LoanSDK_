@@ -57,7 +57,7 @@ ext {
     siteUrl = 'https://github.com/KingsMentor/loanEligibility'
     gitUrl = 'https://github.com/KingsMentor/loanEligibility'
 
-    libraryVersion = '2.0.2'
+    libraryVersion = '2.1.0'
 
     developerId = 'kingsmentor'
     developerName = 'Nosakhare Belvi'
