@@ -12,6 +12,7 @@ import com.intelia.sdk.eligibility.remote.NetworkResponses
 import com.intelia.sdk.eligibility.remote.apis.AnalysisApi
 import com.intelia.sdk.eligibility.repository.SmsQuery
 import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.util.*
@@ -21,12 +22,25 @@ import java.util.regex.Pattern
 internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.create(AnalysisApi::class.java)) {
 
 
-    fun calculateEligibility(
+    private fun updateProgress(progress:Int,message:String,emitter: ObservableEmitter<Eligibility>){
+        val eligibility = NetworkResponses.DataPointResponse()
+        val errorObj = JsonObject()
+        errorObj.addProperty("progress", progress)
+        errorObj.addProperty("progressMessage", message)
+        eligibility["progressUpdate"] = errorObj
+        emitter.onNext(eligibility)
+    }
+
+    private fun calculateEligibilityEmittingProgress(
         context: Context,
         name: String,
         apiKey: String,
-        extras: JSONObject
+        extras: JSONObject,
+        emitter: ObservableEmitter<Eligibility>
     ): Observable<Eligibility> {
+        val eligibility = NetworkResponses.DataPointResponse()
+        val errorObj = JsonObject()
+        updateProgress(10,"verifying Key",emitter)
         return api.retrieve(
             IpRequest(
                 name,
@@ -38,9 +52,12 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
         ).onErrorReturn {
             NetworkResponses.KeyResponse()
         }.flatMap { response ->
+
             response.key?.let {
+                updateProgress(30,"Key Verified",emitter)
                 Observable.just(response)
             } ?: run {
+                updateProgress(30,"Generating new key",emitter)
                 api.generateKey(
                     IpRequest(
                         name,
@@ -52,6 +69,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                 )
             }
         }.flatMap { response ->
+            updateProgress(60,"Analysing user data",emitter)
             SmsQuery().smsSearch(context)
                 .map {
                     val body = mutableListOf<Request>()
@@ -68,6 +86,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                     }
                     body
                 }.map {
+                    updateProgress(80,"Completing data analysis",emitter)
                     it.addAll(relevantApp().apps.map {
                         Request(
                             "",
@@ -79,6 +98,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                     })
                     it
                 }.flatMap { list ->
+                    updateProgress(90,"Syncing data to loan engine",emitter)
                     context.buildDeviceInfo(extras)
                     val extraMapping = hashMapOf<String, String>()
                     extras.keys().forEach {
@@ -88,21 +108,19 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                         ApiClient.retrofitSigned(response.key!!).create(AnalysisApi::class.java)
                     api.calculateEligibility(
                         name,
-                        response.key!!,
+                        response.key,
                         DataRequest(list, extraMapping)
                     )
                 }.onErrorReturn {
-                    val eligibility = NetworkResponses.DataPointResponse()
+
                     (it as? HttpException)?.response()?.errorBody()?.string()?.let {
                         val errorrMessage = JSONObject(it)
-                        val errorObj = JsonObject()
                         errorObj.addProperty("errorCode", errorrMessage.optString("error-code"))
                         errorObj.addProperty("message", errorrMessage.optString("message"))
                         eligibility["errorMessage"] = errorObj
 
                     } ?: kotlin.run {
-                        val errorObj = JsonObject()
-                        errorObj.addProperty("message", "error occured processing request")
+                        errorObj.addProperty("message", "error occurred processing request")
                         eligibility["errorMessage"] = errorObj
                     }
                     eligibility
@@ -111,7 +129,26 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                     it
                 }
         }
+    }
 
+    fun calculateEligibility(
+        context: Context,
+        name: String,
+        apiKey: String,
+        extras: JSONObject
+    ): Observable<Eligibility> {
+        return Observable.create<Eligibility> { emitter ->
+            emitter.onNext(
+                calculateEligibilityEmittingProgress(
+                    context,
+                    name,
+                    apiKey,
+                    extras,
+                    emitter
+                ).blockingFirst()
+            )
+            emitter.onComplete()
+        }
     }
 
     fun smsData(context: Context): Observable<MutableList<SmsDataPoint>> {
