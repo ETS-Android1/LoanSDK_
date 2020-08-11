@@ -22,7 +22,11 @@ import java.util.regex.Pattern
 internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.create(AnalysisApi::class.java)) {
 
 
-    private fun updateProgress(progress:Int,message:String,emitter: ObservableEmitter<Eligibility>){
+    private fun updateProgress(
+        progress: Int,
+        message: String,
+        emitter: ObservableEmitter<Eligibility>
+    ) {
         val eligibility = NetworkResponses.DataPointResponse()
         val errorObj = JsonObject()
         errorObj.addProperty("progress", progress)
@@ -36,11 +40,12 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
         name: String,
         apiKey: String,
         extras: JSONObject,
+        maxSms: Int,
         emitter: ObservableEmitter<Eligibility>
     ): Observable<Eligibility> {
         val eligibility = NetworkResponses.DataPointResponse()
         val errorObj = JsonObject()
-        updateProgress(10,"verifying Key",emitter)
+        updateProgress(10, "verifying Key", emitter)
         return api.retrieve(
             IpRequest(
                 name,
@@ -54,10 +59,10 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
         }.flatMap { response ->
 
             response.key?.let {
-                updateProgress(30,"Key Verified",emitter)
+                updateProgress(30, "Key Verified", emitter)
                 Observable.just(response)
             } ?: run {
-                updateProgress(30,"Generating new key",emitter)
+                updateProgress(30, "Generating new key", emitter)
                 api.generateKey(
                     IpRequest(
                         name,
@@ -69,8 +74,8 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                 )
             }
         }.flatMap { response ->
-            updateProgress(60,"Analysing user data",emitter)
-            SmsQuery().smsSearch(context)
+            updateProgress(60, "Analysing user data", emitter)
+            SmsQuery().smsSearch(context, maxSms)
                 .map {
                     val body = mutableListOf<Request>()
                     it.forEach { sdp ->
@@ -86,7 +91,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                     }
                     body
                 }.map {
-                    updateProgress(80,"Completing data analysis",emitter)
+                    updateProgress(80, "Completing data analysis", emitter)
                     it.addAll(relevantApp().apps.map {
                         Request(
                             "",
@@ -98,7 +103,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                     })
                     it
                 }.flatMap { list ->
-                    updateProgress(90,"Syncing data to loan engine",emitter)
+                    updateProgress(90, "Syncing data to loan engine", emitter)
                     context.buildDeviceInfo(extras)
                     val extraMapping = hashMapOf<String, String>()
                     extras.keys().forEach {
@@ -135,15 +140,17 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
         context: Context,
         name: String,
         apiKey: String,
-        extras: JSONObject
+        extras: JSONObject,
+        maxSMS: Int
     ): Observable<Eligibility> {
-        return Observable.create<Eligibility> { emitter ->
+        return Observable.create { emitter ->
             emitter.onNext(
                 calculateEligibilityEmittingProgress(
                     context,
                     name,
                     apiKey,
                     extras,
+                    maxSMS,
                     emitter
                 ).blockingFirst()
             )
@@ -151,8 +158,8 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
         }
     }
 
-    fun smsData(context: Context): Observable<MutableList<SmsDataPoint>> {
-        return SmsQuery().smsSearch(context)
+    fun smsData(context: Context, maxSMS: Int): Observable<MutableList<SmsDataPoint>> {
+        return SmsQuery().smsSearch(context, maxSMS)
     }
 
     fun relevantApp(): RelevantApps {

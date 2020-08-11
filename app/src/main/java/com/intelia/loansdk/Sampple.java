@@ -16,7 +16,7 @@ import io.reactivex.disposables.Disposable;
 public class Sampple {
 
     public void Sam(Context context) {
-        LoanEligibility.INSTANCE.init(context, "", "", new JSONObject())
+        LoanEligibility.INSTANCE.init(context, "", "", new JSONObject(), 50)
                 .smsData().subscribe(new Observer<List<SmsDataPoint>>() {
             @Override
             public void onSubscribe(Disposable d) {

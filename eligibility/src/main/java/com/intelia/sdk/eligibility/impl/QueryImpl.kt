@@ -16,23 +16,31 @@ open class QueryImpl : QueryUsecase {
     private lateinit var apiKey: String
     private lateinit var name: String
     private lateinit var extras: JSONObject
+    private var maxSms: Int = 0
 
-    internal constructor(context: Context, name: String, key: String,extras:JSONObject) : this() {
+    internal constructor(
+        context: Context,
+        name: String,
+        key: String,
+        maxSMS: Int = 500,
+        extras: JSONObject
+    ) : this() {
         this.context = context
         this.apiKey = key
         this.name = name
         this.extras = extras
+        this.maxSms = maxSMS
     }
 
 
     private val queryImplementation = QueryImplementation()
 
     override fun calculateEligibility(): Observable<Eligibility> {
-        return queryImplementation.calculateEligibility(context,name,apiKey,extras)
+        return queryImplementation.calculateEligibility(context, name, apiKey, extras, maxSms)
     }
 
     override fun smsData(): Observable<MutableList<SmsDataPoint>> {
-        return queryImplementation.smsData(context)
+        return queryImplementation.smsData(context, maxSms)
     }
 
     override fun relevantApp(): RelevantApps {
@@ -42,6 +50,7 @@ open class QueryImpl : QueryUsecase {
     override fun isRelevantSms(sms: String): Boolean {
         return queryImplementation.isRelevantSms(sms)
     }
+
     override fun isRelevantApp(packageName: String): Boolean {
         return queryImplementation.isRelevantApp(packageName)
     }

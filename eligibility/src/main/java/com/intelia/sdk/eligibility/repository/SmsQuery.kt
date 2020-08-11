@@ -13,14 +13,18 @@ import kotlin.collections.LinkedHashMap
 
 open class SmsQuery {
 
-    fun smsSearch(context: Context): Observable<MutableList<SmsDataPoint>> {
+    fun smsSearch(context: Context, maxSms: Int): Observable<MutableList<SmsDataPoint>> {
         return Observable.create<MutableList<SmsDataPoint>> { emitter ->
             val cr = context.contentResolver
 
             val c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null)
             if (c != null) {
-                val smsList = LinkedHashMap<String,MutableList<Sms>>()
+                val smsList = LinkedHashMap<String, MutableList<Sms>>()
+                var count = 0
                 while (c.moveToNext()) {
+                    if (count == maxSms)
+                        break
+                    count++
                     val smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))
                     val number = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS))
                     val body = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY))
@@ -28,13 +32,13 @@ open class SmsQuery {
                     val type =
                         Integer.parseInt(c.getString(c.getColumnIndexOrThrow(Telephony.Sms.TYPE)))
                     if (type == Telephony.Sms.MESSAGE_TYPE_INBOX) {
-                        if(number.toLowerCase().startsWith("gtbankrvsl")){
-                            Log.e("body",body.replace("\n"," ").toLowerCase())
-                        }
+//                        if (number.toLowerCase().startsWith("gtbankrvsl")) {
+//                            Log.e("body", body.replace("\n", " ").toLowerCase())
+//                        }
                         FilterParams.query.forEach outter@{ dataPointCategory ->
                             dataPointCategory.contentFilter.forEach inner@{
                                 val p = Pattern.compile(it)
-                                val m = p.matcher(body.replace("\n"," ").toLowerCase())
+                                val m = p.matcher(body.replace("\n", " ").toLowerCase())
                                 if (m.find() && number.first().isLetter()) {
                                     if (smsList.containsKey(dataPointCategory.category))
                                         smsList[dataPointCategory.category]?.add(
