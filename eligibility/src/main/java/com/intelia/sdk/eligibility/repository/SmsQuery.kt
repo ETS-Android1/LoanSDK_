@@ -24,7 +24,6 @@ open class SmsQuery {
                 while (c.moveToNext()) {
                     if (count == maxSms)
                         break
-                    count++
                     val smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))
                     val number = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS))
                     val body = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY))
@@ -40,6 +39,7 @@ open class SmsQuery {
                                 val p = Pattern.compile(it)
                                 val m = p.matcher(body.replace("\n", " ").toLowerCase())
                                 if (m.find() && number.first().isLetter()) {
+                                    count++
                                     if (smsList.containsKey(dataPointCategory.category))
                                         smsList[dataPointCategory.category]?.add(
                                             Sms(

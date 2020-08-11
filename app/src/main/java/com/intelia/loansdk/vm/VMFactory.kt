@@ -11,8 +11,13 @@ import org.json.JSONObject
 object VMFactory : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainVM(LoanEligibility.init(App.appContext,"sam_5432","sample_key",
-            JSONObject()
-        )) as T
+        return MainVM(
+            LoanEligibility.init(
+                App.appContext,
+                "sam_5432",
+                "sample_key",
+                JSONObject()
+            )
+        ) as T
     }
 }
