@@ -10,7 +10,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 
-  implementation 'io.intelia.anyi:eligibility:2.0.2'
+  implementation 'io.intelia.anyi:eligibility:2.1.2'
 }
 ```
 
