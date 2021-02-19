@@ -38,7 +38,7 @@ open class MainVM(private val usecase: QueryUsecase) : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    Log.e("log",it.toString())
+                    Log.e("log", it.toString())
                     eligibility.postValue(it)
                 }
         )

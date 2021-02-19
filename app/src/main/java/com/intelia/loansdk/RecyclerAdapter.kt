@@ -4,13 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.intelia.sdk.eligibility.models.Sms
 import com.intelia.loansdk.R
+import com.intelia.sdk.eligibility.models.Sms
 import kotlinx.android.synthetic.main.alert_item.view.*
 
-open class RecyclerAdapter(val smsList: MutableList<Sms>) : RecyclerView.Adapter<RecyclerAdapter.Holder>() {
+open class RecyclerAdapter(val smsList: MutableList<Sms>) :
+    RecyclerView.Adapter<RecyclerAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        return Holder(LayoutInflater.from(parent.context).inflate(R.layout.alert_item, parent, false))
+        return Holder(
+            LayoutInflater.from(parent.context).inflate(R.layout.alert_item, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {

@@ -1,7 +1,6 @@
 package com.intelia.sdk.eligibility.impl
 
 import android.content.Context
-import android.util.Log
 import com.google.gson.JsonObject
 import com.intelia.sdk.eligibility.ext.buildDeviceInfo
 import com.intelia.sdk.eligibility.ext.hash

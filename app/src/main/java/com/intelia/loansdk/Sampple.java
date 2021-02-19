@@ -6,7 +6,6 @@ import com.intelia.sdk.eligibility.LoanEligibility;
 import com.intelia.sdk.eligibility.models.SmsDataPoint;
 
 import org.json.JSONObject;
-import org.reactivestreams.Subscriber;
 
 import java.util.List;
 

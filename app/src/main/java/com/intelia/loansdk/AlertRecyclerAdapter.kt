@@ -5,12 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.intelia.sdk.eligibility.models.SmsDataPoint
 import com.intelia.loansdk.R
+import com.intelia.sdk.eligibility.models.SmsDataPoint
 import kotlinx.android.synthetic.main.alert_item.view.title
 import kotlinx.android.synthetic.main.category_item.view.*
 
-open class AlertRecyclerAdapter(val smsList: MutableList<SmsDataPoint>) : RecyclerView.Adapter<AlertRecyclerAdapter.Holder>() {
+open class AlertRecyclerAdapter(val smsList: MutableList<SmsDataPoint>) :
+    RecyclerView.Adapter<AlertRecyclerAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         return Holder(
             LayoutInflater.from(parent.context).inflate(
@@ -39,7 +40,8 @@ open class AlertRecyclerAdapter(val smsList: MutableList<SmsDataPoint>) : Recycl
         fun bind(sms: SmsDataPoint) {
             itemView.title.text = sms.category
             val adapter = RecyclerAdapter(sms.sms)
-            itemView.body_view.layoutManager = (LinearLayoutManager(itemView.context,RecyclerView.VERTICAL,false))
+            itemView.body_view.layoutManager =
+                (LinearLayoutManager(itemView.context, RecyclerView.VERTICAL, false))
             itemView.body_view.adapter = adapter
         }
     }

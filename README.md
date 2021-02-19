@@ -10,7 +10,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
 
-  implementation 'io.intelia.anyi:eligibility:2.0.1'
+  implementation 'io.intelia.anyi:eligibility:2.0.2'
 }
 ```
 
@@ -18,13 +18,13 @@ dependencies {
 
 ## The Basics
 
-**Kindly Note**, initialize LoanEligibilty SDK:
+**Kindly Note**, initialize LoanEligibility SDK:
 
 To initialise LoanEligibility SDK, call : `LoanEligibility.init(context, YOUR_API_KEY)`
 
 this will either : 
 
-`throw an exception` when permission is not granted to read sms (so ensure your application have been granted the proper permission before maing this call)
+`throw an exception` when permission is not granted to read sms (so ensure your application have been granted the proper permission before making this call)
 
 ```java
 throw Exception("android.Manifest.permission.READ_SMS permission is required")
@@ -118,7 +118,7 @@ Otherwise, it returns false immediately. This is particularly useful when your a
 
 You will find a basic text application [here](https://github.com/intelia/Loan-SDK/tree/master/app) .
 
-Kindly go through the implimentation, build and run on your emulator or physical devices.
+Kindly go through the implementation, build and run on your emulator or physical devices.
 
 The test app test the basic functionality of the sdk. So, don't restrict your usage or implementation to what is found therein. 
 
@@ -157,7 +157,7 @@ If the first step was completed without any error. These other calls will run su
 Both calls returns JSON representation of `Eligibility` Object (which is updated overtime)
 
 
-Eligibility contains information duduced from User information contained in the device :
+Eligibility contains information deduced from User information contained in the device :
 
 ```kotlin
 open class Eligibility(

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     val RC_PHONE = 1
     lateinit var progressDialog: ProgressDialog
 
-    private  val smsAdapter = AlertRecyclerAdapter(mutableListOf())
+    private val smsAdapter = AlertRecyclerAdapter(mutableListOf())
     private fun startLoading(message: String? = null) {
         if (message != null) progressDialog.setMessage(message)
         progressDialog.show()
@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     private fun endLoading() {
         progressDialog.dismiss()
     }
-
 
 
     private fun smsQuery() {
@@ -46,8 +45,10 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        sms_list.layoutManager = (LinearLayoutManager(this,
-            RecyclerView.VERTICAL,false))
+        sms_list.layoutManager = (LinearLayoutManager(
+            this,
+            RecyclerView.VERTICAL, false
+        ))
         sms_list.adapter = smsAdapter
 
         setupProgressDialog()
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         mainVM.eligibility.observe(this, Observer { res ->
             res?.let {
                 textView.text = Gson().toJson(res)
-            }?:run{
+            } ?: run {
                 textView.text = "error fetching eligibility"
             }
 
