@@ -2,7 +2,6 @@ package com.intelia.sdk.eligibility.repository
 
 import android.content.Context
 import android.provider.Telephony
-import android.util.Log
 import com.intelia.sdk.eligibility.models.FilterParams
 import com.intelia.sdk.eligibility.models.Sms
 import com.intelia.sdk.eligibility.models.SmsDataPoint

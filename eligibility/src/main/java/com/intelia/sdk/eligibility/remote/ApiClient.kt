@@ -28,7 +28,9 @@ object ApiClient {
                 GsonConverterFactory.create(
                     GsonBuilder()
                         .setLenient()
-                        .create())) // for serialization. Great resource for json parsing
+                        .create()
+                )
+            ) // for serialization. Great resource for json parsing
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // for rx. Enable the use of Observable instead of {@link Call}
             .client(signedClient())
             .build()
