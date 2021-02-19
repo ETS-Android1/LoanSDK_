@@ -8,10 +8,6 @@ import org.json.JSONObject
 import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import androidx.core.content.ContextCompat.getSystemService
-import android.telephony.TelephonyManager
-
-
 
 
 fun String.hash(): String {
@@ -49,7 +45,10 @@ fun Context.buildDeviceInfo(extra: JSONObject) {
     extra.put("device", System.getProperty(android.os.Build.DEVICE))
     extra.put("model", System.getProperty(android.os.Build.MODEL))
     extra.put("product", System.getProperty(android.os.Build.PRODUCT))
-    extra.put("imel", Settings.System.getString(this.contentResolver, Settings.Secure.ANDROID_ID))
+    extra.put(
+        "imel",
+        "imei_" + Settings.System.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
+    )
 }
 
 fun Context.hash(): String {
