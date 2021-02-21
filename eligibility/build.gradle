@@ -39,30 +39,30 @@ dependencies {
 
 }
 
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'eligibility'
-
-    publishedGroupId = 'io.intelia.anyi'
-    libraryName = 'eligibility'
-    artifact = 'eligibility'
-
-    libraryDescription = 'Intelia Loan eligibility SDK'
-
-    siteUrl = 'https://github.com/KingsMentor/loanEligibility'
-    gitUrl = 'https://github.com/KingsMentor/loanEligibility'
-
-    libraryVersion = '2.1.2'
-
-    developerId = 'kingsmentor'
-    developerName = 'Nosakhare Belvi'
-    developerEmail = 'nosakharebelvi@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
-
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+//ext {
+//    bintrayRepo = 'maven'
+//    bintrayName = 'eligibility'
+//
+//    publishedGroupId = 'io.intelia.anyi'
+//    libraryName = 'eligibility'
+//    artifact = 'eligibility'
+//
+//    libraryDescription = 'Intelia Loan eligibility SDK'
+//
+//    siteUrl = 'https://github.com/KingsMentor/loanEligibility'
+//    gitUrl = 'https://github.com/KingsMentor/loanEligibility'
+//
+//    libraryVersion = '2.1.2'
+//
+//    developerId = 'kingsmentor'
+//    developerName = 'Nosakhare Belvi'
+//    developerEmail = 'nosakharebelvi@gmail.com'
+//
+//    licenseName = 'The Apache Software License, Version 2.0'
+//    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//    allLicenses = ["Apache-2.0"]
+//}
+//
+//
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
