@@ -75,7 +75,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
         }.flatMap { response ->
             updateProgress(60, "Analysing user data", emitter)
             SmsQuery().smsSearch(context, maxSms)
-                .map {
+                .map { it ->
                     val body = mutableListOf<Request>()
                     it.forEach { sdp ->
                         body.addAll(sdp.sms.map {
@@ -89,7 +89,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                         })
                     }
                     body
-                }.map {
+                }.map { it ->
                     updateProgress(80, "Completing data analysis", emitter)
                     it.addAll(relevantApp().apps.map {
                         Request(
@@ -115,16 +115,18 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                         response.key,
                         DataRequest(list, extraMapping)
                     )
-                }.onErrorReturn {
-
+                }.onErrorReturn { it ->
+                    // this handles error performing the request
                     (it as? HttpException)?.response()?.errorBody()?.string()?.let {
-                        val errorrMessage = JSONObject(it)
-                        errorObj.addProperty("errorCode", errorrMessage.optString("error-code"))
-                        errorObj.addProperty("message", errorrMessage.optString("message"))
+                        val errorMessage = JSONObject(it)
+                        //assign error message to key values for user
+                        errorObj.addProperty("errorCode", errorMessage.optString("error-code"))
+                        errorObj.addProperty("message", errorMessage.optString("message"))
                         eligibility["errorMessage"] = errorObj
 
                     } ?: kotlin.run {
-                        errorObj.addProperty("message", "error occurred processing request")
+                        //assign error message when message is null or ""
+                        errorObj.addProperty("message", "An error occurred while processing your request")
                         eligibility["errorMessage"] = errorObj
                     }
                     eligibility
