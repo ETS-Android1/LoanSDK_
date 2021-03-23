@@ -61,10 +61,9 @@ object ApiClient {
             .readTimeout(1, TimeUnit.MINUTES)
             .writeTimeout(1, TimeUnit.MINUTES)
             .addInterceptor(interceptor)
-        if (!key.isEmpty()) {
+        if (key.isNotEmpty()) {
             client.addInterceptor { chain ->
                 val newRequest = chain.request().newBuilder()
-
                     .addHeader("key", key)
                     .build()
                 chain.proceed(newRequest)
@@ -72,8 +71,6 @@ object ApiClient {
         }
         return client.build()
     }
-
-
 }
 
 
