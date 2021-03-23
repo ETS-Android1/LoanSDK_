@@ -3,6 +3,7 @@ package com.intelia.loansdk
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -91,8 +92,10 @@ class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
         mainVM.eligibility.observe(this, Observer { res ->
             res?.let {
                 textView.text = Gson().toJson(res)
+                Log.e("Main", "" + it)
             } ?: run {
                 textView.text = "error fetching eligibility"
+                Log.e("error block", "" + res)
             }
 
             endLoading()

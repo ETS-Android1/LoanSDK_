@@ -1,6 +1,7 @@
 package com.intelia.sdk.eligibility.impl
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.JsonObject
 import com.intelia.sdk.eligibility.ext.buildDeviceInfo
 import com.intelia.sdk.eligibility.ext.hash
@@ -116,6 +117,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                         DataRequest(list, extraMapping)
                     )
                 }.onErrorReturn { it ->
+                    Log.e("Eligiblity", "error block " + it)
                     // this handles error performing the request
                     (it as? HttpException)?.response()?.errorBody()?.string()?.let {
                         val errorMessage = JSONObject(it)
@@ -126,12 +128,17 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
 
                     } ?: kotlin.run {
                         //assign error message when message is null or ""
-                        errorObj.addProperty("message", "An error occurred while processing your request")
+                        errorObj.addProperty(
+                            "message",
+                            "An error occurred while processing your request"
+                        )
                         eligibility["errorMessage"] = errorObj
                     }
+                    Log.e("Eligiblity", "calculateEligibilityEmittingProgress: " + eligibility)
                     eligibility
                 }
                 .map {
+                    Log.e("Eligiblity", "done " + it)
                     it
                 }
         }
