@@ -2,6 +2,7 @@ package com.intelia.sdk.eligibility.repository
 
 import android.content.Context
 import android.provider.Telephony
+import android.util.Log
 import com.intelia.sdk.eligibility.models.FilterParams
 import com.intelia.sdk.eligibility.models.Sms
 import com.intelia.sdk.eligibility.models.SmsDataPoint
@@ -24,7 +25,9 @@ open class SmsQuery {
                     if (count == maxSms)
                         break
                     val smsDate = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.DATE))
+                    //seems to be sender name e.g. ZenithBank
                     val number = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.ADDRESS))
+                    //seems to be account number e.g Acct:200****345
                     val body = c.getString(c.getColumnIndexOrThrow(Telephony.Sms.BODY))
                     val dateFormat = Date(smsDate.toLong())
                     val type =
@@ -34,11 +37,13 @@ open class SmsQuery {
 //                            Log.e("body", body.replace("\n", " ").toLowerCase())
 //                        }
                         FilterParams.query.forEach outter@{ dataPointCategory ->
+                            Log.e("dataPointCategory", dataPointCategory.category)
                             dataPointCategory.contentFilter.forEach inner@{
                                 val p = Pattern.compile(it)
                                 val m = p.matcher(body.replace("\n", " ").toLowerCase())
                                 if (m.find() && number.first().isLetter()) {
                                     count++
+                                    //Log.e("smsllist", smsList.toString())
                                     if (smsList.containsKey(dataPointCategory.category))
                                         smsList[dataPointCategory.category]?.add(
                                             Sms(
@@ -56,8 +61,19 @@ open class SmsQuery {
                                             )
                                         )
                                     }
+                                    Log.e(
+                                        "sms-list", Sms(
+                                            number,
+                                            body,
+                                            dateFormat
+                                        ).toString()
+                                    )
                                 }
                             }
+                            Log.e("body", body)
+                            Log.e("sms date", smsDate)
+                            Log.e("number", number)
+                            Log.e("body", body)
                         }
                     }
 

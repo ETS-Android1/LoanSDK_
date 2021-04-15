@@ -5,7 +5,7 @@ object FilterParams {
 
         DataPointCategory(
             "Airtime Recharge",
-            mutableListOf("^.*txn.*\$"),
+            mutableListOf("^.*airtime.*\$", "^.*recharge.*\$", "^.*top.*\$"),
             DataPointType.SMS
         ),
         DataPointCategory(
@@ -14,7 +14,10 @@ object FilterParams {
                 "^.*debit alert!.*\$",
                 "^.*dr amt:.*\$",
                 "^.*amt:.*dr.*\$",
-                "^.*debit:ngn.*\$"
+                "^.*debit:ngn.*\$",
+                "^.*dr.*\$",
+                "^.*debit.*\$",
+                "^.*debited.*\$",
             ),
             DataPointType.SMS
         ),
@@ -24,7 +27,10 @@ object FilterParams {
                 "^.credit alert!.*\$",
                 "^.*cr amt:.*\$",
                 "^.*amt:.*cr.*\$",
-                "^.*credit:ngn.*\$"
+                "^.*credit:ngn.*\$",
+                "^.*cr.*\$",
+                "^.*credit.*\$",
+                "^.*credited.*\$",
             ),
             DataPointType.SMS
         )
