@@ -2,7 +2,6 @@ package com.intelia.sdk.eligibility.repository
 
 import android.content.Context
 import android.provider.Telephony
-import android.util.Log
 import com.intelia.sdk.eligibility.models.FilterParams
 import com.intelia.sdk.eligibility.models.Sms
 import com.intelia.sdk.eligibility.models.SmsDataPoint
@@ -37,7 +36,7 @@ open class SmsQuery {
 //                            Log.e("body", body.replace("\n", " ").toLowerCase())
 //                        }
                         FilterParams.query.forEach outter@{ dataPointCategory ->
-                            Log.e("dataPointCategory", dataPointCategory.category)
+                            //Log.e("dataPointCategory", dataPointCategory.category)
                             dataPointCategory.contentFilter.forEach inner@{
                                 val p = Pattern.compile(it)
                                 val m = p.matcher(body.replace("\n", " ").toLowerCase())
@@ -61,19 +60,19 @@ open class SmsQuery {
                                             )
                                         )
                                     }
-                                    Log.e(
-                                        "sms-list", Sms(
-                                            number,
-                                            body,
-                                            dateFormat
-                                        ).toString()
-                                    )
+//                                    Log.e(
+//                                        "sms-list", Sms(
+//                                            number,
+//                                            body,
+//                                            dateFormat
+//                                        ).toString()
+//                                    )
                                 }
                             }
-                            Log.e("body", body)
-                            Log.e("sms date", smsDate)
-                            Log.e("number", number)
-                            Log.e("body", body)
+//                            Log.e("body", body)
+//                            Log.e("sms date", smsDate)
+//                            Log.e("number", number)
+//                            Log.e("body", body)
                         }
                     }
 
