@@ -55,6 +55,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                 context.packageName
             )
         ).onErrorReturn {
+            //Log.e("dd", it.message!!)
             NetworkResponses.KeyResponse()
         }.flatMap { response ->
 
@@ -93,6 +94,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                 }.map { it ->
                     updateProgress(80, "Completing data analysis", emitter)
                     it.addAll(relevantApp().apps.map {
+                      //  Log.e("add all data analysis", it)
                         Request(
                             "",
                             it,
@@ -100,11 +102,14 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                             Date(),
                             false
                         )
+
                     })
+                    //Log.e("request data", it.toString())
                     it
                 }.flatMap { list ->
                     updateProgress(90, "Syncing data to loan engine", emitter)
                     context.buildDeviceInfo(extras)
+                   // Log.e("list", list.toString())
                     val extraMapping = hashMapOf<String, String>()
                     extras.keys().forEach {
                         extraMapping[it] = extras.getString(it)
@@ -117,7 +122,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                         DataRequest(list, extraMapping)
                     )
                 }.onErrorReturn { it ->
-                    Log.e("Eligiblity", "error block " + it)
+                    Log.e("Eligibility SDK", "error block  $it")
                     // this handles error performing the request
                     (it as? HttpException)?.response()?.errorBody()?.string()?.let {
                         val errorMessage = JSONObject(it)
@@ -134,12 +139,12 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                         )
                         eligibility["errorMessage"] = errorObj
                     }
-                    Log.e("Eligiblity", "calculateEligibilityEmittingProgress: " + eligibility)
+                    Log.e("Eligiblity SDK", "calculateEligibilityEmittingProgress: " + eligibility)
                     eligibility
                 }
                 .map {
-                    Log.e("Eligiblity", "done " + it)
-                    it
+                    //Log.e("Eligiblity", "done " + it)
+                    return@map it
                 }
         }
     }

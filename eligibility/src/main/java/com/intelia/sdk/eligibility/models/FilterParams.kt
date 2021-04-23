@@ -5,7 +5,7 @@ object FilterParams {
 
         DataPointCategory(
             "Airtime Recharge",
-            mutableListOf("^.*airtime.*\$", "^.*recharge.*\$", "^.*top.*\$"),
+            mutableListOf("^.*airtime.*\$", "^.*recharge.*\$", "^.*top.*\$",),
             DataPointType.SMS
         ),
         DataPointCategory(
