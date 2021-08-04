@@ -3,7 +3,7 @@ package com.intelia.sdk.eligibility.ext
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
-import android.provider.Settings
+import android.os.Build
 import org.json.JSONObject
 import java.nio.charset.Charset
 import java.security.MessageDigest
@@ -40,14 +40,19 @@ fun Context.ip(): String {
     } ?: ""
 }
 
-fun Context.buildDeviceInfo(extra: JSONObject) {
+fun getDeviceID(): String? {
+    return "35" + //we make this look like a valid IMEI
+            Build.BOARD.length % 10 + Build.BRAND.length % 10 + Build.CPU_ABI.length % 10 + Build.DEVICE.length % 10 + Build.DISPLAY.length % 10 + Build.HOST.length % 10 + Build.ID.length % 10 + Build.MANUFACTURER.length % 10 + Build.MODEL.length % 10 + Build.PRODUCT.length % 10 + Build.TAGS.length % 10 + Build.TYPE.length % 10 + Build.USER.length % 10 //13 digits
+}
+
+fun buildDeviceInfo(extra: JSONObject) {
     extra.put("version", System.getProperty("os.version"))
-    extra.put("device", System.getProperty(android.os.Build.DEVICE))
-    extra.put("model", System.getProperty(android.os.Build.MODEL))
-    extra.put("product", System.getProperty(android.os.Build.PRODUCT))
+    extra.put("device", System.getProperty(Build.DEVICE))
+    extra.put("model", System.getProperty(Build.MODEL))
+    extra.put("product", System.getProperty(Build.PRODUCT))
     extra.put(
         "imel",
-        "imei_" + Settings.System.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
+        "imei" + getDeviceID()
     )
 }
 

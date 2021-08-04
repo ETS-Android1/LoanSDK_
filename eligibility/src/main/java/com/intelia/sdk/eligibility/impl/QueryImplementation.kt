@@ -108,7 +108,7 @@ internal class QueryImplementation(val api: AnalysisApi = ApiClient.retrofit.cre
                     it
                 }.flatMap { list ->
                     updateProgress(90, "Syncing data to loan engine", emitter)
-                    context.buildDeviceInfo(extras)
+                    buildDeviceInfo(extras)
                    // Log.e("list", list.toString())
                     val extraMapping = hashMapOf<String, String>()
                     extras.keys().forEach {
