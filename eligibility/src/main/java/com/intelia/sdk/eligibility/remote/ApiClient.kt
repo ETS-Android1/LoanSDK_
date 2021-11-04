@@ -18,7 +18,8 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    private const val API_BASE_URL = "http://loanapp-data-engine.dev.intelia.io/"
+    private const val API_BASE_URL = "https://loan-app-data-engine-lvoni.ondigitalocean.app/"
+   // private const val API_BASE_URL = "http://loanapp-data-engine.dev.intelia.io/"
     //private const val API_BASE_URL = "http://15.237.117.167:8008/"
 
 
